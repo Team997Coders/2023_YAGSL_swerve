@@ -7,12 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import java.io.File;
-import java.io.IOException;
-
-import edu.wpi.first.wpilibj.Filesystem;
-import swervelib.parser.SwerveParser;
-import swervelib.SwerveDrive;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -22,12 +16,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
-    try{
-    File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
-    SwerveDrive swerveDrive  = new SwerveParser(swerveJsonDirectory).createSwerveDrive();
-    }
-    catch(IOException exception){System.out.println("IOE exception readng swerve json");}
   }
 
   @Override
