@@ -49,9 +49,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    if (m_autonomousCommand != null) {
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != null)
+    {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setDriveMode();
+    m_robotContainer.setMotorBrake(true);
   }
 
   @Override
