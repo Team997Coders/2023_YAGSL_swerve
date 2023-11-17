@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.function.Supplier;
 import swervelib.motors.SwerveMotor;
 
@@ -19,6 +21,8 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    */
   public AbsoluteEncoder encoder;
 
+  private CANSparkMax motorController;
+
   /**
    * Create the {@link SparkMaxEncoderSwerve} object as a duty cycle from the {@link CANSparkMax} motor.
    *
@@ -29,6 +33,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
   {
     if (motor.getMotor() instanceof CANSparkMax)
     {
+      motorController = ((CANSparkMax) motor.getMotor());
       encoder = ((CANSparkMax) motor.getMotor()).getAbsoluteEncoder(Type.kDutyCycle);
       configureSparkMax(() -> encoder.setVelocityConversionFactor(conversionFactor));
       configureSparkMax(() -> encoder.setPositionConversionFactor(conversionFactor));
@@ -61,7 +66,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
   @Override
   public void factoryDefault()
   {
-    // Do nothing
+    this.motorController.restoreFactoryDefaults();
   }
 
   /**
@@ -92,7 +97,10 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
   @Override
   public double getAbsolutePosition()
   {
-    return encoder.getPosition();
+    double angle = encoder.getPosition(); 
+    //SmartDashboard.putNumber("raw angle", angle);
+    
+    return angle;
   }
 
   /**
