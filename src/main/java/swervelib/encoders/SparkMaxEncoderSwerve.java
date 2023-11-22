@@ -23,14 +23,17 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
 
   private CANSparkMax motorController;
 
+  private double _conversionFactor;
+
   /**
    * Create the {@link SparkMaxEncoderSwerve} object as a duty cycle from the {@link CANSparkMax} motor.
    *
    * @param motor            Motor to create the encoder from.
    * @param conversionFactor The conversion factor to set if the output is not from 0 to 360.
    */
-  public SparkMaxEncoderSwerve(SwerveMotor motor, int conversionFactor)
+  public SparkMaxEncoderSwerve(SwerveMotor motor, double conversionFactor)
   {
+    _conversionFactor = conversionFactor;
     if (motor.getMotor() instanceof CANSparkMax)
     {
       motorController = ((CANSparkMax) motor.getMotor());
@@ -97,6 +100,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
   @Override
   public double getAbsolutePosition()
   {
+    SmartDashboard.putNumber("conversion", _conversionFactor);
     double angle = encoder.getPosition(); 
     //SmartDashboard.putNumber("raw angle", angle);
     

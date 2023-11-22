@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 // import edu.wpi.first.wpilibj.XboxController; //unsed
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandJoystick; //unused
@@ -48,27 +49,30 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
-    // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
-                                 OperatorConstants.LEFT_Y_DEADBAND),
-    () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                 OperatorConstants.LEFT_X_DEADBAND),
-    () -> -driverXbox.getRightX(),
-    () -> -driverXbox.getRightY());
+     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
+    // // Applies deadbands and inverts controls because joysticks
+    // // are back-right positive while robot
+    // // controls are front-left positive
+     () -> 0.5, //MathUtil.applyDeadband(driverXbox.getLeftY(), angle
+              //                    OperatorConstants.LEFT_Y_DEADBAND),
+     () -> 0, //MathUtil.applyDeadband(driverXbox.getLeftX(),
+              //                    OperatorConstants.LEFT_X_DEADBAND),
+     () -> 0.0, //-driverXbox.getRightX(),  forwards and backwards
+     () -> 0.5); //-driverXbox.getRightY())
+     
 
 
-    AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
-    () ->
-        MathUtil.applyDeadband(driverXbox.getLeftY(),
-                               OperatorConstants.LEFT_Y_DEADBAND),
-    () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                 OperatorConstants.LEFT_X_DEADBAND),
-    () -> driverXbox.getRawAxis(2));
+    
 
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+   AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
+   () ->
+       MathUtil.applyDeadband(driverXbox.getLeftY(),
+                              OperatorConstants.LEFT_Y_DEADBAND),
+   () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
+                                OperatorConstants.LEFT_X_DEADBAND),
+   () -> driverXbox.getRawAxis(2));
+
+   drivebase.setDefaultCommand(closedAbsoluteDrive);
   }
 
   /**

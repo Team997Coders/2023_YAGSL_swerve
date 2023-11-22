@@ -179,8 +179,8 @@ public class SwerveModule
   {
     if (moduleStateOptimization)
     {
-      desiredState = SwerveModuleState.optimize(desiredState,
-                                                Rotation2d.fromDegrees(getAbsolutePosition()));
+      //desiredState = SwerveModuleState.optimize(desiredState,
+      //                                          Rotation2d.fromDegrees(getAbsolutePosition()));
     }
 
     if (isOpenLoop)
@@ -240,7 +240,7 @@ public class SwerveModule
    */
   public void setAngle(double angle)
   {
-    angleMotor.setReference(angle, 0);
+    angleMotor.setReference(angle + this.angleOffset, 0);
     lastState.angle = Rotation2d.fromDegrees(angle);
   }
 
