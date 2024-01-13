@@ -61,6 +61,7 @@ public class SparkMaxSwerve extends SwerveMotor
 
     // Spin off configurations in a different thread.
     configureSparkMax(() -> motor.setCANTimeout(0));
+    encoder.setPositionConversionFactor(Math.PI * 2);
   }
 
   /**
